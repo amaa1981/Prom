@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/bound-by-controller: "yes"
+  creationTimestamp: null
+  finalizers:
+  - kubernetes.io/pv-protection
+  labels:
+    app: prometheus
+    chart: prometheus-7.0.0
+    component: alertmanager
+    heritage: Tiller
+    release: musty-seahorse
+  name: prometheus-pv01
+  selfLink: /api/v1/persistentvolumes/prometheus-pv01
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 9Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: prometheus-pvc01
+    namespace: monitoring
+    resourceVersion: "1615037"
+    uid: cc298a63-e6d1-11e8-8d53-0242ac110007
+  nfs:
+    path: /export/prometheus-share
+    server: 192.168.1.13
+  persistentVolumeReclaimPolicy: Retain
+status: {}

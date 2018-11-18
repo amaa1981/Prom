@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    pv.kubernetes.io/bind-completed: "yes"
+  creationTimestamp: null
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: prometheus
+    chart: prometheus-7.0.0
+    component: alertmanager
+    heritage: Tiller
+    release: musty-seahorse
+  name: alertmanager-pvc01
+  selfLink: /api/v1/namespaces/monitoring/persistentvolumeclaims/alertmanager-pvc01
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4G
+  volumeName: alertmanager-pv01
+status: {}

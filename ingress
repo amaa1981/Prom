@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/rewrite-target":"/"},"name":"jenkins-master-ingress","namespace":"delivery"},"spec":{"rules":[{"host":"delivery.crombie.cloud","http":{"paths":[{"backend":{"serviceName":"jenkins-master-service","servicePort":8080},"path":"/jenkins"}]}}]}}
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  creationTimestamp: null
+  generation: 1
+  name: jenkins-master-ingress
+  selfLink: /apis/extensions/v1beta1/namespaces/delivery/ingresses/jenkins-master-ingress
+spec:
+  rules:
+  - host: example.crombie.co.nz
+    http:
+      paths:
+      - backend:
+          serviceName: jenkins-master-service
+          servicePort: 8080
+        path: /jenkins
+  - host: example.uni-care.org
+    http:
+      paths:
+      - backend:
+          serviceName: my-nginx
+          servicePort: 80
+        path: /nginx
+  tls:
+  - hosts:
+    - crombie.co.nz
+    secretName: crombie.co.nz
+  - hosts:
+    - uni-care.org
+    secretName: uni-care.org
+status:
+  loadBalancer: {}

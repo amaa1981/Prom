@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  name: alertmanager
+  selfLink: /api/v1/namespaces/monitoring/services/alertmanager
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: http
+    port: 9093
+    protocol: TCP
+    targetPort: 9093
+  selector:
+    app: alertmanager
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}

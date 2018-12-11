@@ -1,0 +1,61 @@
+apiVersion: v1
+data:
+  alert_templates: |
+    null
+  alertmanager.yml: |-
+    global:
+      resolve_timeout: 5m
+      http_config: {}
+      smtp_from: sysadmin@crombielockwood.co.nz
+      smtp_hello: localhost
+      smtp_smarthost: relaypointnz.ajg.com:25
+      smtp_auth_username: sysadmin@crombielockwood.co.nz
+      smtp_require_tls: false
+    route:
+      receiver: mails
+      group_by:
+      - node
+      - cluster
+      - service
+      routes:
+      - receiver: mails
+        match_re:
+          service: ^(?:^(mail_serv)$)$
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+    receivers:
+    - name: mails
+      email_configs:
+      - send_resolved: false
+        to: ali.abbas@emergingtechnology.co.nz
+        from: sysadmin@crombielockwood.co.nz
+        hello: localhost
+        smarthost: relaypointnz.ajg.com:25
+        auth_username: sysadmin@crombielockwood.co.nz
+        headers:
+          From: sysadmin@crombielockwood.co.nz
+          Subject: '{{ template "email.default.subject" . }}'
+          To: ali.abbas@emergingtechnology.co.nz
+        html: '{{ template "email.default.html" . }}'
+        require_tls: false
+      - send_resolved: false
+        to: wayne.volk@crombielockwood.co.nz
+        from: sysadmin@crombielockwood.co.nz
+        hello: localhost
+        smarthost: relaypointnz.ajg.com:25
+        auth_username: sysadmin@crombielockwood.co.nz
+        headers:
+          From: sysadmin@crombielockwood.co.nz
+          Subject: '{{ template "email.default.subject" . }}'
+          To: wayne.volk@crombielockwood.co.nz
+        html: '{{ template "email.default.html" . }}'
+        require_tls: false
+    templates: []
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    app: alertmanager
+  name: alertmanager
+  selfLink: /api/v1/namespaces/monitoring/configmaps/alertmanager

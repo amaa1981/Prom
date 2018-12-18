@@ -1,0 +1,47 @@
+apiVersion: v1
+data:
+  sample.rules: |-
+    groups:
+    - name: alert.rules
+      rules:
+      - alert: NodeDown
+        expr: ucp_engine_node_health == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          description: Docker host is under high load, the avg load 1m is at {{ $value}}.
+            Reported by instance {{ $labels.instance }} of job {{ $labels.job }}.
+          summary: Server under high load
+      - alert: High_Memory
+        expr: ucp_engine_container_cpu_percent > 75
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          description: Docker host is under high load, the avg load 1m is at {{ $value}}.
+            Reported by instance {{ $labels.instance }} of job {{ $labels.job }}.
+          summary: Server under high load
+      - alert: High_CPU
+        expr: ucp_engine_container_memory_usage_percent > 75
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          description: Docker host is under high load, the avg load 1m is at {{ $value}}.
+            Reported by instance {{ $labels.instance }} of job {{ $labels.job }}.
+          summary: Server under high load
+      - alert: High_Disk
+        expr: ucp_engine_disk_free_bytes < 80679920640000
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          description: Docker host is under high load, the avg load 1m is at {{ $value}}.
+            Reported by instance {{ $labels.instance }} of job {{ $labels.job }}.
+          summary: Server under high load
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: prometheus-rules
+  selfLink: /api/v1/namespaces/monitoring/configmaps/prometheus-rules
